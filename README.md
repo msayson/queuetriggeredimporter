@@ -16,7 +16,7 @@ To allow us to make future infrastructure changes with minimal effort, we will d
   * Use cases will reference entities, but should know nothing about frameworks or infrastructure.
   * Interface adapters (controllers, gateways, presenters) will reference use cases, but should know nothing about infrastructure (device hardware, database, UI framework, external interfaces).
 * Use Dependency Inversion for crossing boundaries from inner layers to outer layers, using interfaces that abstract out details that outer layers implement.
-  * For example, a use case class, eg. `SearchUsers`, should reference a data access interface, eg. `interface UsersRepository`,` without having any dependency on how the database layer is implemented.  This allows us to implement the database using a MySQLUsersRepository, DynamoDBUsersRepository, or anything else, without impacting any inner layer code.  We can then make infrastructure decisions later or migrate from one option to another with much less effort, reducing migration effort from potentially months for complex projects to days.
+  * For example, a use case class, eg. `SearchUsers`, should reference a data access interface, eg. `interface UsersRepository`, without having any dependency on how the database layer is implemented.  This allows us to implement the database using a MySQLUsersRepository, DynamoDBUsersRepository, or anything else, without impacting any inner layer code.  We can then make infrastructure decisions later or migrate from one option to another with much less effort, reducing migration effort from potentially months for complex projects to days.
 
 ### Helpful commands
 
