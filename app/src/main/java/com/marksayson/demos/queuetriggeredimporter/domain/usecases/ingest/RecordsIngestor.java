@@ -5,6 +5,7 @@ import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedRecords
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.QueueReceiver;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.RecordsProcessor;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.RecordsRetrievor;
+import org.immutables.value.Value;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -12,38 +13,25 @@ import java.util.Optional;
 /**
  * Encapsulates logic for ingesting data based on queued data import messages.
  */
-public class RecordsIngestor {
-  private final QueueReceiver queueReceiver;
-  private final RecordsRetrievor recordsRetrievor;
-  private final RecordsProcessor recordsProcessor;
+@Value.Immutable
+public abstract class RecordsIngestor {
+  abstract QueueReceiver getQueueReceiver();
 
-  /**
-   * Construct instance of RecordsIngestor.
-   * @param queueReceiver    Data import queue listener
-   * @param recordsRetrievor Data record retrievor
-   * @param recordsProcessor Data record processor
-   */
-  public RecordsIngestor(
-    final QueueReceiver queueReceiver,
-    final RecordsRetrievor recordsRetrievor,
-    final RecordsProcessor recordsProcessor
-  ) {
-    this.queueReceiver = queueReceiver;
-    this.recordsRetrievor = recordsRetrievor;
-    this.recordsProcessor = recordsProcessor;
-  }
+  abstract RecordsRetrievor getRecordsRetrievor();
+
+  abstract RecordsProcessor getRecordsProcessor();
 
   /**
    * Ingest records from the data source provided by the latest message in the queue.
    */
   public void ingestRecords() {
-    final Optional<QueuedRecordsMessage> optionalMessage = queueReceiver.getMessageFromQueue();
+    final Optional<QueuedRecordsMessage> optionalMessage = getQueueReceiver().getMessageFromQueue();
     if (optionalMessage.isEmpty()) {
       return;
     }
 
     final String recordsSource = optionalMessage.get().recordsSource();
-    final Collection<DataRecord> records = recordsRetrievor.retrieveRecords(recordsSource);
-    recordsProcessor.processRecords(records);
+    final Collection<DataRecord> records = getRecordsRetrievor().retrieveRecords(recordsSource);
+    getRecordsProcessor().processRecords(records);
   }
 }
