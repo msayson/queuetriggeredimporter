@@ -2,11 +2,11 @@ package com.marksayson.demos.queuetriggeredimporter;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProgramTest {
   @Test void appHasAGreeting() {
     final Program classUnderTest = new Program();
-    assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    assertEquals("Hello world!", classUnderTest.getGreeting(), "Program did not have expected greeting");
   }
 }

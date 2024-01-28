@@ -5,7 +5,7 @@ package com.marksayson.demos.queuetriggeredimporter;
  */
 public class Program {
   public String getGreeting() {
-    return "Hello World!";
+    return "Hello world!";
   }
 
   public static void main(final String[] args) {
