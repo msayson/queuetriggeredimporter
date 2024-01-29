@@ -8,6 +8,8 @@ plugins {
   application
   // Supports style checks for Java source files
   checkstyle
+  // Test coverage checks for Java source files
+  jacoco
 }
 
 configurations.checkstyle {
@@ -28,6 +30,13 @@ checkstyle {
   maxErrors = 0
   maxWarnings = 0
   setIgnoreFailures(false)
+}
+
+/*
+  Configures the jacoco plugin
+ */
+jacoco {
+  toolVersion = "0.8.9"
 }
 
 repositories {
@@ -66,7 +75,41 @@ application {
   mainClass.set("com.marksayson.demos.queuetriggeredimporter.Program")
 }
 
-tasks.named<Test>("test") {
-  // Use JUnit Platform for unit tests.
-  useJUnitPlatform()
+tasks {
+  jacocoTestReport {
+    // Must run tests before can generate test coverage report
+    dependsOn(test)
+  }
+
+  jacocoTestCoverageVerification {
+    dependsOn(test)
+
+    violationRules {
+      rule {
+        limit {
+          counter = "LINE"
+          minimum = "0.6".toBigDecimal()
+        }
+      }
+
+      rule {
+        limit {
+          counter = "BRANCH"
+          minimum = "0.3".toBigDecimal()
+        }
+      }
+    }
+  }
+
+  compileJava {
+    val generatedSourceDir = file("build/generated/sources/annotationProcessor/java/main")
+    options.annotationProcessorGeneratedSourcesDirectory = generatedSourceDir
+    outputs.dir(generatedSourceDir)
+  }
+
+  test {
+    useJUnitPlatform()
+    finalizedBy(jacocoTestReport)
+    finalizedBy(jacocoTestCoverageVerification)
+  }
 }

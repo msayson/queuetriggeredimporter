@@ -1,25 +1,24 @@
 package com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.DataRecord;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 public class InMemoryRecordsRetrievorTest {
-  private final String TEST_RECORD_SOURCE_LOCATION = "TestSourceDataLocation";
-  private final Collection<DataRecord> TEST_RECORDS = List.of(
+  private InMemoryRecordsRetrievor retrievor;
+
+  private static final String TEST_RECORD_SOURCE_LOCATION = "TestSourceDataLocation";
+  private static final Collection<DataRecord> TEST_RECORDS = List.of(
     new DataRecord("1", "title1", "2023-01-01", "2023-01-01"),
     new DataRecord("2", "title2", "2023-01-02", "2023-01-03")
   );
-
-  private InMemoryRecordsRetrievor retrievor;
 
   @BeforeEach void setup() {
     retrievor = new InMemoryRecordsRetrievor();
