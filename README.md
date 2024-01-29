@@ -22,4 +22,6 @@ To allow us to make future infrastructure changes with minimal effort, we will d
 
 * `gradle build` - evaluate checkstyle, run unit tests, and assemble project jars
 * `gradle check` - evaluate code against checkstyle rules
+* `gradle run` - execute the program
+* `gradle tasks` - list available Gradle tasks
 * `gradle test` - run unit tests
