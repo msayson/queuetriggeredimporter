@@ -31,7 +31,9 @@ public abstract class RecordsIngestor {
     }
 
     final String recordsSource = optionalMessage.get().recordsSource();
-    final Collection<DataRecord> records = getRecordsRetrievor().retrieveRecords(recordsSource);
-    getRecordsProcessor().processRecords(records);
+    final Optional<Collection<DataRecord>> optionalRecords = getRecordsRetrievor().retrieveRecords(recordsSource);
+    if (optionalRecords.isPresent()) {
+      getRecordsProcessor().processRecords(optionalRecords.get());
+    }
   }
 }
