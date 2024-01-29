@@ -9,4 +9,9 @@ public class ProgramTest {
     final Program classUnderTest = new Program();
     assertEquals("Hello world!", classUnderTest.getGreeting(), "Program did not have expected greeting");
   }
+
+  @Test void testMainRunsSuccessfully() {
+    final String[] testArgs = {"arg1"};
+    Program.main(testArgs);
+  }
 }

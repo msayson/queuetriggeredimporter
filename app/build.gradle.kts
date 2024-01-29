@@ -79,14 +79,14 @@ tasks {
       rule {
         limit {
           counter = "LINE"
-          minimum = "0.8".toBigDecimal()
+          minimum = "0.95".toBigDecimal()
         }
       }
 
       rule {
         limit {
           counter = "BRANCH"
-          minimum = "0.5".toBigDecimal()
+          minimum = "1.0".toBigDecimal()
         }
       }
     }
