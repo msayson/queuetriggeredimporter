@@ -17,7 +17,7 @@ public class InMemoryQueueReceiver implements QueueReceiver {
     this.queue = new LinkedList<>();
   }
 
-  void addMessageToQueue(final QueuedRecordsMessage message) {
+  public void addMessageToQueue(final QueuedRecordsMessage message) {
     queue.add(message);
   }
 
