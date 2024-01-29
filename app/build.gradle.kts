@@ -52,15 +52,6 @@ dependencies {
 
   // This dependency is used by the application.
   implementation(libs.guava)
-
-  // Used for Immutables factory builders, ref: https://immutables.github.io/factory.html
-  val immutablesVersion = "2.9.2"
-  annotationProcessor("org.immutables:value:${immutablesVersion}")
-  compileOnly("org.immutables:value-annotations:${immutablesVersion}")
-  testAnnotationProcessor("org.immutables:value:${immutablesVersion}")
-  testCompileOnly("org.immutables:value-annotations:${immutablesVersion}")
-
-  implementation("org.immutables:value-annotations:${immutablesVersion}")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -99,12 +90,6 @@ tasks {
         }
       }
     }
-  }
-
-  compileJava {
-    val generatedSourceDir = file("build/generated/sources/annotationProcessor/java/main")
-    options.annotationProcessorGeneratedSourcesDirectory = generatedSourceDir
-    outputs.dir(generatedSourceDir)
   }
 
   test {

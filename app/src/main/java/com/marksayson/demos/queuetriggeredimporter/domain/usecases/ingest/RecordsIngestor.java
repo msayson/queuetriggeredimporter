@@ -5,7 +5,6 @@ import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedRecords
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.QueueReceiver;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.RecordsProcessor;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.RecordsRetrievor;
-import org.immutables.value.Value;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -13,27 +12,40 @@ import java.util.Optional;
 /**
  * Encapsulates logic for ingesting data based on queued data import messages.
  */
-@Value.Immutable
-public abstract class RecordsIngestor {
-  abstract QueueReceiver getQueueReceiver();
+public class RecordsIngestor {
+  private final QueueReceiver queueReceiver;
+  private final RecordsRetrievor recordsRetrievor;
+  private final RecordsProcessor recordsProcessor;
 
-  abstract RecordsRetrievor getRecordsRetrievor();
-
-  abstract RecordsProcessor getRecordsProcessor();
+  /**
+   * Construct instance of RecordsIngestor.
+   * @param queueReceiver    Data import queue listener
+   * @param recordsRetrievor Data record retrievor
+   * @param recordsProcessor Data record processor
+   */
+  public RecordsIngestor(
+    final QueueReceiver queueReceiver,
+    final RecordsRetrievor recordsRetrievor,
+    final RecordsProcessor recordsProcessor
+  ) {
+    this.queueReceiver = queueReceiver;
+    this.recordsRetrievor = recordsRetrievor;
+    this.recordsProcessor = recordsProcessor;
+  }
 
   /**
    * Ingest records from the data source provided by the latest message in the queue.
    */
   public void ingestRecords() {
-    final Optional<QueuedRecordsMessage> optionalMessage = getQueueReceiver().getMessageFromQueue();
+    final Optional<QueuedRecordsMessage> optionalMessage = queueReceiver.getMessageFromQueue();
     if (optionalMessage.isEmpty()) {
       return;
     }
 
     final String recordsSource = optionalMessage.get().recordsSource();
-    final Optional<Collection<DataRecord>> optionalRecords = getRecordsRetrievor().retrieveRecords(recordsSource);
+    final Optional<Collection<DataRecord>> optionalRecords = recordsRetrievor.retrieveRecords(recordsSource);
     if (optionalRecords.isPresent()) {
-      getRecordsProcessor().processRecords(optionalRecords.get());
+      recordsProcessor.processRecords(optionalRecords.get());
     }
   }
 }
