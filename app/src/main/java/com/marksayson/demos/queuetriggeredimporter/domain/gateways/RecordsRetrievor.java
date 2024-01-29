@@ -9,5 +9,5 @@ import java.util.Optional;
  * Gateway for retrieving records from a data source.
  */
 public interface RecordsRetrievor {
-  Optional<Collection<DataRecord>> retrieveRecords(final String source);
+  Optional<Collection<DataRecord>> retrieveRecords(final String sourceLocation);
 }
