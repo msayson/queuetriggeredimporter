@@ -1,5 +1,7 @@
 package com.marksayson.demos.queuetriggeredimporter.domain.usecases.ingest;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.DataRecord;
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedRecordsMessage;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueReceiver;
@@ -31,10 +33,11 @@ public class RecordsIngestorTest {
     ingestor.ingestRecords();
   }
 
-  @Test void testIngestRecordsWithMissingData() {
+  @Test void testIngestRecordsDeletesProcessedMessageFromQueue() {
     queueReceiver.addMessageToQueue(TEST_MESSAGE);
 
     ingestor.ingestRecords();
+    assertTrue(queueReceiver.getMessageFromQueue().isEmpty());
   }
 
   @Test void testIngestRecordsWithEmptyData() {

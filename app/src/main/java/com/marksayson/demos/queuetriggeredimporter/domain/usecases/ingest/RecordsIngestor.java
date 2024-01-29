@@ -42,10 +42,12 @@ public class RecordsIngestor {
       return;
     }
 
-    final String recordsSource = optionalMessage.get().recordsSource();
+    final QueuedRecordsMessage message = optionalMessage.get();
+    final String recordsSource = message.recordsSource();
     final Optional<Collection<DataRecord>> optionalRecords = recordsRetrievor.retrieveRecords(recordsSource);
     if (optionalRecords.isPresent()) {
       recordsProcessor.processRecords(optionalRecords.get());
     }
+    queueReceiver.deleteMessageFromQueue(message);
   }
 }
