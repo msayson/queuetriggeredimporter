@@ -15,9 +15,10 @@ public class InMemoryRecordsRetrievorTest {
   private InMemoryRecordsRetrievor retrievor;
 
   private static final String TEST_RECORD_SOURCE_LOCATION = "TestSourceDataLocation";
+  private static final String VALID_DATETIME = "2011-12-03T10:15:30Z";
   private static final Collection<DataRecord> TEST_RECORDS = List.of(
-    new DataRecord("1", "title1", "2023-01-01", "2023-01-01"),
-    new DataRecord("2", "title2", "2023-01-02", "2023-01-03")
+    new DataRecord("1", "title1", VALID_DATETIME, VALID_DATETIME),
+    new DataRecord("2", "title2", VALID_DATETIME, VALID_DATETIME)
   );
 
   @BeforeEach void setup() {

@@ -49,7 +49,7 @@ public class RecordsIngestorTest {
 
   @Test void testIngestRecordsWithAvailableData() {
     final DataRecord testDataRecord = new DataRecord(
-      "id", "data", "2023-01-01", "2023-10-30"
+      "id", "data", "2023-12-01T10:55:01Z", "2024-01-28T05:35:22Z"
     );
     queueReceiver.addMessageToQueue(TEST_MESSAGE);
     recordsRetrievor.uploadRecords(
