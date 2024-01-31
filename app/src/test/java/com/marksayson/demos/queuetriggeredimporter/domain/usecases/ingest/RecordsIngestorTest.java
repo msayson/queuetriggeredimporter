@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.DataRecord;
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedRecordsMessage;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueReceiver;
-import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryRecordsRetrievor;
+import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryRecordsRetriever;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 public class RecordsIngestorTest {
   private InMemoryQueueReceiver queueReceiver;
-  private InMemoryRecordsRetrievor recordsRetrievor;
+  private InMemoryRecordsRetriever recordsRetriever;
   private InMemoryRecordsProcessor recordsProcessor;
   private RecordsIngestor ingestor;
 
@@ -23,10 +23,10 @@ public class RecordsIngestorTest {
 
   @BeforeEach void setup() {
     queueReceiver = new InMemoryQueueReceiver();
-    recordsRetrievor = new InMemoryRecordsRetrievor();
+    recordsRetriever = new InMemoryRecordsRetriever();
     recordsProcessor = new InMemoryRecordsProcessor();
 
-    ingestor = new RecordsIngestor(queueReceiver, recordsRetrievor, recordsProcessor);
+    ingestor = new RecordsIngestor(queueReceiver, recordsRetriever, recordsProcessor);
   }
 
   @Test void testIngestRecordsWithEmptyQueue() {
@@ -42,7 +42,7 @@ public class RecordsIngestorTest {
 
   @Test void testIngestRecordsWithEmptyData() {
     queueReceiver.addMessageToQueue(TEST_MESSAGE);
-    recordsRetrievor.uploadRecords(TEST_MESSAGE.recordsSource(), List.of());
+    recordsRetriever.uploadRecords(TEST_MESSAGE.recordsSource(), List.of());
 
     ingestor.ingestRecords();
   }
@@ -52,7 +52,7 @@ public class RecordsIngestorTest {
       "id", "data", "2023-12-01T10:55:01Z", "2024-01-28T05:35:22Z"
     );
     queueReceiver.addMessageToQueue(TEST_MESSAGE);
-    recordsRetrievor.uploadRecords(
+    recordsRetriever.uploadRecords(
       TEST_MESSAGE.recordsSource(),
       List.of(testDataRecord, testDataRecord)
     );

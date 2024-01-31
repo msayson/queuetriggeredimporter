@@ -3,7 +3,7 @@ package com.marksayson.demos.queuetriggeredimporter;
 import com.marksayson.demos.queuetriggeredimporter.domain.usecases.ingest.RecordsIngestor;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueReceiver;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryRecordsProcessor;
-import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryRecordsRetrievor;
+import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryRecordsRetriever;
 
 /**
  * Entry point for the program.
@@ -24,7 +24,7 @@ public class Program {
   private static RecordsIngestor instantiateIngestor() {
     return new RecordsIngestor(
       new InMemoryQueueReceiver(),
-      new InMemoryRecordsRetrievor(),
+      new InMemoryRecordsRetriever(),
       new InMemoryRecordsProcessor()
     );
   }

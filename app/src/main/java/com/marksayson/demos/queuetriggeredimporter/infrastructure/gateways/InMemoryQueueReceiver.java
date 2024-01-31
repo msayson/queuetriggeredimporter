@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 /**
- * In-memory implementation of a queue retrievor.
+ * In-memory implementation of a queue retriever.
  */
 public class InMemoryQueueReceiver implements QueueReceiver {
 

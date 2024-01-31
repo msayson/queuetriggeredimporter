@@ -1,7 +1,7 @@
 package com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways;
 
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.DataRecord;
-import com.marksayson.demos.queuetriggeredimporter.domain.gateways.RecordsRetrievor;
+import com.marksayson.demos.queuetriggeredimporter.domain.gateways.RecordsRetriever;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,13 +9,13 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * In-memory implementation of a records retrievor.
+ * In-memory implementation of a records retriever.
  */
-public class InMemoryRecordsRetrievor implements RecordsRetrievor {
+public class InMemoryRecordsRetriever implements RecordsRetriever {
 
   private final Map<String, Collection<DataRecord>> dataProvider;
 
-  public InMemoryRecordsRetrievor() {
+  public InMemoryRecordsRetriever() {
     dataProvider = new HashMap<>();
   }
 

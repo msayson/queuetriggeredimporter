@@ -11,8 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class InMemoryRecordsRetrievorTest {
-  private InMemoryRecordsRetrievor retrievor;
+public class InMemoryRecordsRetrieverTest {
+  private InMemoryRecordsRetriever retriever;
 
   private static final String TEST_RECORD_SOURCE_LOCATION = "TestSourceDataLocation";
   private static final String VALID_DATETIME = "2011-12-03T10:15:30Z";
@@ -22,21 +22,21 @@ public class InMemoryRecordsRetrievorTest {
   );
 
   @BeforeEach void setup() {
-    retrievor = new InMemoryRecordsRetrievor();
+    retriever = new InMemoryRecordsRetriever();
   }
 
   @Test void testRetrieveNonExistingRecords() {
     final String locationWithoutRecords = "NoRecordsHere";
-    assertTrue(retrievor.retrieveRecords(locationWithoutRecords).isEmpty());
+    assertTrue(retriever.retrieveRecords(locationWithoutRecords).isEmpty());
 
-    retrievor.uploadRecords(TEST_RECORD_SOURCE_LOCATION, TEST_RECORDS);
-    assertTrue(retrievor.retrieveRecords(locationWithoutRecords).isEmpty());
+    retriever.uploadRecords(TEST_RECORD_SOURCE_LOCATION, TEST_RECORDS);
+    assertTrue(retriever.retrieveRecords(locationWithoutRecords).isEmpty());
   }
 
   @Test void testRetrieveExistingRecords() {
-    retrievor.uploadRecords(TEST_RECORD_SOURCE_LOCATION, TEST_RECORDS);
+    retriever.uploadRecords(TEST_RECORD_SOURCE_LOCATION, TEST_RECORDS);
 
-    final Optional<Collection<DataRecord>> records = retrievor.retrieveRecords(TEST_RECORD_SOURCE_LOCATION);
+    final Optional<Collection<DataRecord>> records = retriever.retrieveRecords(TEST_RECORD_SOURCE_LOCATION);
     assertTrue(records.isPresent());
     assertEquals(TEST_RECORDS, records.get());
   }

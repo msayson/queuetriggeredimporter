@@ -4,7 +4,7 @@ import com.marksayson.demos.queuetriggeredimporter.domain.entities.DataRecord;
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedRecordsMessage;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.QueueReceiver;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.RecordsProcessor;
-import com.marksayson.demos.queuetriggeredimporter.domain.gateways.RecordsRetrievor;
+import com.marksayson.demos.queuetriggeredimporter.domain.gateways.RecordsRetriever;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -14,22 +14,22 @@ import java.util.Optional;
  */
 public class RecordsIngestor {
   private final QueueReceiver queueReceiver;
-  private final RecordsRetrievor recordsRetrievor;
+  private final RecordsRetriever recordsRetriever;
   private final RecordsProcessor recordsProcessor;
 
   /**
    * Construct instance of RecordsIngestor.
    * @param queueReceiver    Data import queue listener
-   * @param recordsRetrievor Data record retrievor
+   * @param recordsRetriever Data record retriever
    * @param recordsProcessor Data record processor
    */
   public RecordsIngestor(
     final QueueReceiver queueReceiver,
-    final RecordsRetrievor recordsRetrievor,
+    final RecordsRetriever recordsRetriever,
     final RecordsProcessor recordsProcessor
   ) {
     this.queueReceiver = queueReceiver;
-    this.recordsRetrievor = recordsRetrievor;
+    this.recordsRetriever = recordsRetriever;
     this.recordsProcessor = recordsProcessor;
   }
 
@@ -44,7 +44,7 @@ public class RecordsIngestor {
 
     final QueuedRecordsMessage message = optionalMessage.get();
     final String recordsSource = message.recordsSource();
-    final Optional<Collection<DataRecord>> optionalRecords = recordsRetrievor.retrieveRecords(recordsSource);
+    final Optional<Collection<DataRecord>> optionalRecords = recordsRetriever.retrieveRecords(recordsSource);
     if (optionalRecords.isPresent()) {
       recordsProcessor.processRecords(optionalRecords.get());
     }
