@@ -1,7 +1,7 @@
 package com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways;
 
-import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedRecordsMessage;
-import com.marksayson.demos.queuetriggeredimporter.domain.gateways.QueueReceiver;
+import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedProductsMessage;
+import com.marksayson.demos.queuetriggeredimporter.domain.gateways.QueueConsumer;
 
 import java.util.LinkedList;
 import java.util.Optional;
@@ -9,20 +9,20 @@ import java.util.Optional;
 /**
  * In-memory implementation of a queue retriever.
  */
-public class InMemoryQueueReceiver implements QueueReceiver {
+public class InMemoryQueueReceiver implements QueueConsumer {
 
-  private final LinkedList<QueuedRecordsMessage> queue;
+  private final LinkedList<QueuedProductsMessage> queue;
 
   public InMemoryQueueReceiver() {
     this.queue = new LinkedList<>();
   }
 
-  public void addMessageToQueue(final QueuedRecordsMessage message) {
+  public void addMessageToQueue(final QueuedProductsMessage message) {
     queue.add(message);
   }
 
   @Override
-  public Optional<QueuedRecordsMessage> getMessageFromQueue() {
+  public Optional<QueuedProductsMessage> getMessageFromQueue() {
     if (queue.isEmpty()) {
       return Optional.empty();
     }
@@ -30,7 +30,7 @@ public class InMemoryQueueReceiver implements QueueReceiver {
   }
 
   @Override
-  public void deleteMessageFromQueue(final QueuedRecordsMessage message) {
+  public void deleteMessageFromQueue(final QueuedProductsMessage message) {
     queue.remove(message);
   }
 }

@@ -1,9 +1,9 @@
 ## Introduction
-This project is a demo for a queue-based record importer following Clean Architecture principles.
+This project is a demo for a queue-based product importer following Clean Architecture principles.
 
 ### Scenario
 
-We want to build a Records Importer program that will retrieve a "pending records" message from a queue that provides information on where to import data from.  The Records Importer will use this information to retrieve the records from the data source, process them, and delete the message from the queue after successful processing.
+We want to build a Products Importer program that will retrieve a "pending products" message from a queue that provides information on where to import data from.  The Products Importer will use this information to retrieve the products from the data source, process them, and delete the message from the queue after successful processing.
 
 To allow us to make future infrastructure changes with minimal effort, we will decouple our internal entities and use cases from infrastructure decisions.
 
