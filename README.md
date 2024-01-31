@@ -7,6 +7,20 @@ We want to build a Records Importer program that will retrieve a "pending record
 
 To allow us to make future infrastructure changes with minimal effort, we will decouple our internal entities and use cases from infrastructure decisions.
 
+### Project file structure
+
+* `/domain/entities`
+  * Data models with core business rules and validations
+* `/domain/usecases`
+  * Application-level business logic leveraging entities and `/domain/gateways` interfaces
+* `/domain/gateways`
+  * Interfaces defining external interactions without specifying infrastructure choices
+* `/infrastructure/gateways`
+  * Implementations of `/domain/gateways` interfaces
+  * Can add a new implementation and switch infrastructure choices in `/Program.java` without touching any `/domain/*` code
+* `/Program.java`
+  * Entry point, initializes infrastructure and runs program
+
 ### Brief summary of Clean Architecture
 
 * Decouple layers: domain logic, use cases, interface adapters, and frameworks and infrastructure.
