@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.Product;
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedProductsMessage;
-import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueReceiver;
+import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueConsumer;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryProductsRetriever;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ProductsIngestorTest {
-  private InMemoryQueueReceiver queueReceiver;
+  private InMemoryQueueConsumer queueConsumer;
   private InMemoryProductsRetriever productsRetriever;
   private InMemoryProductsProcessor productsProcessor;
   private ProductsIngestor ingestor;
@@ -22,11 +22,11 @@ public class ProductsIngestorTest {
   private static QueuedProductsMessage TEST_MESSAGE = new QueuedProductsMessage("SourceLocation");
 
   @BeforeEach void setup() {
-    queueReceiver = new InMemoryQueueReceiver();
+    queueConsumer = new InMemoryQueueConsumer();
     productsRetriever = new InMemoryProductsRetriever();
     productsProcessor = new InMemoryProductsProcessor();
 
-    ingestor = new ProductsIngestor(queueReceiver, productsRetriever, productsProcessor);
+    ingestor = new ProductsIngestor(queueConsumer, productsRetriever, productsProcessor);
   }
 
   @Test void testIngestRecordsWithEmptyQueue() {
@@ -34,14 +34,14 @@ public class ProductsIngestorTest {
   }
 
   @Test void testIngestRecordsDeletesProcessedMessageFromQueue() {
-    queueReceiver.addMessageToQueue(TEST_MESSAGE);
+    queueConsumer.addMessageToQueue(TEST_MESSAGE);
 
     ingestor.ingestProducts();
-    assertTrue(queueReceiver.getMessageFromQueue().isEmpty());
+    assertTrue(queueConsumer.getMessageFromQueue().isEmpty());
   }
 
   @Test void testIngestRecordsWithEmptyData() {
-    queueReceiver.addMessageToQueue(TEST_MESSAGE);
+    queueConsumer.addMessageToQueue(TEST_MESSAGE);
     productsRetriever.uploadProducts(TEST_MESSAGE.sourceLocation(), List.of());
 
     ingestor.ingestProducts();
@@ -51,7 +51,7 @@ public class ProductsIngestorTest {
     final Product product = new Product(
       "id", "data", "2023-12-01T10:55:01Z", "2024-01-28T05:35:22Z"
     );
-    queueReceiver.addMessageToQueue(TEST_MESSAGE);
+    queueConsumer.addMessageToQueue(TEST_MESSAGE);
     productsRetriever.uploadProducts(
       TEST_MESSAGE.sourceLocation(),
       List.of(product, product)

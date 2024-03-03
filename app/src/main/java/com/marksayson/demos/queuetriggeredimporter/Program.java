@@ -3,7 +3,7 @@ package com.marksayson.demos.queuetriggeredimporter;
 import com.marksayson.demos.queuetriggeredimporter.domain.usecases.ingest.ProductsIngestor;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryProductsProcessor;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryProductsRetriever;
-import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueReceiver;
+import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueConsumer;
 
 /**
  * Program which consumes an import notification, retrieves associated products, and processes them.
@@ -23,7 +23,7 @@ public class Program {
 
   private static ProductsIngestor instantiateIngestor() {
     return new ProductsIngestor(
-      new InMemoryQueueReceiver(),
+      new InMemoryQueueConsumer(),
       new InMemoryProductsRetriever(),
       new InMemoryProductsProcessor()
     );

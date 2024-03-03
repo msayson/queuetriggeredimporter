@@ -7,13 +7,13 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 /**
- * In-memory implementation of a queue retriever.
+ * In-memory implementation of a queue consumer.
  */
-public class InMemoryQueueReceiver implements QueueConsumer {
+public class InMemoryQueueConsumer implements QueueConsumer {
 
   private final LinkedList<QueuedProductsMessage> queue;
 
-  public InMemoryQueueReceiver() {
+  public InMemoryQueueConsumer() {
     this.queue = new LinkedList<>();
   }
 

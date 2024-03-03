@@ -11,48 +11,48 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-public class InMemoryQueueReceiverTest {
-  private InMemoryQueueReceiver receiver;
+public class InMemoryQueueConsumerTest {
+  private InMemoryQueueConsumer queueConsumer;
 
   private static QueuedProductsMessage TEST_MESSAGE = new QueuedProductsMessage("SourceLocation");
 
   @BeforeEach void setup() {
-    receiver = new InMemoryQueueReceiver();
+    queueConsumer = new InMemoryQueueConsumer();
   }
 
   @Test void testGetMessageFromEmptyQueue() {
-    final Optional<QueuedProductsMessage> optionalMessage = receiver.getMessageFromQueue();
+    final Optional<QueuedProductsMessage> optionalMessage = queueConsumer.getMessageFromQueue();
     assertTrue(optionalMessage.isEmpty());
   }
 
   @Test void testGetMessageFromNonEmptyQueue() {
-    receiver.addMessageToQueue(TEST_MESSAGE);
+    queueConsumer.addMessageToQueue(TEST_MESSAGE);
 
-    final Optional<QueuedProductsMessage> optionalMessage = receiver.getMessageFromQueue();
+    final Optional<QueuedProductsMessage> optionalMessage = queueConsumer.getMessageFromQueue();
     assertEquals(TEST_MESSAGE.sourceLocation(), optionalMessage.get().sourceLocation());
   }
 
   @Test void testDeleteMessageFromEmptyQueue() {
-    receiver.deleteMessageFromQueue(null);
-    receiver.deleteMessageFromQueue(TEST_MESSAGE);
+    queueConsumer.deleteMessageFromQueue(null);
+    queueConsumer.deleteMessageFromQueue(TEST_MESSAGE);
 
-    assertTrue(receiver.getMessageFromQueue().isEmpty());
+    assertTrue(queueConsumer.getMessageFromQueue().isEmpty());
   }
 
   @Test void testDeleteMessageFromNonEmptyQueue() {
-    receiver.addMessageToQueue(TEST_MESSAGE);
-    assertFalse(receiver.getMessageFromQueue().isEmpty());
+    queueConsumer.addMessageToQueue(TEST_MESSAGE);
+    assertFalse(queueConsumer.getMessageFromQueue().isEmpty());
 
-    receiver.deleteMessageFromQueue(TEST_MESSAGE);
-    assertTrue(receiver.getMessageFromQueue().isEmpty());
+    queueConsumer.deleteMessageFromQueue(TEST_MESSAGE);
+    assertTrue(queueConsumer.getMessageFromQueue().isEmpty());
   }
 
   @Test void testDeleteMessageNotInQueue() {
-    receiver.addMessageToQueue(TEST_MESSAGE);
+    queueConsumer.addMessageToQueue(TEST_MESSAGE);
     final QueuedProductsMessage messageNotInQueue = new QueuedProductsMessage("NotInQueue");
 
-    receiver.deleteMessageFromQueue(messageNotInQueue);
-    assertFalse(receiver.getMessageFromQueue().isEmpty());
+    queueConsumer.deleteMessageFromQueue(messageNotInQueue);
+    assertFalse(queueConsumer.getMessageFromQueue().isEmpty());
   }
 
   @Test void testDeleteMultipleMessages() {
@@ -61,15 +61,15 @@ public class InMemoryQueueReceiverTest {
     final QueuedProductsMessage testMessage3 = new QueuedProductsMessage("TestMessage3");
 
     // Add out of order
-    receiver.addMessageToQueue(testMessage2);
-    receiver.addMessageToQueue(testMessage1);
-    receiver.addMessageToQueue(testMessage3);
+    queueConsumer.addMessageToQueue(testMessage2);
+    queueConsumer.addMessageToQueue(testMessage1);
+    queueConsumer.addMessageToQueue(testMessage3);
 
     // Delete all messages
     List.of(testMessage1, testMessage2, testMessage3).forEach((final QueuedProductsMessage message) -> {
-      receiver.deleteMessageFromQueue(message);
+      queueConsumer.deleteMessageFromQueue(message);
     });
 
-    assertTrue(receiver.getMessageFromQueue().isEmpty());
+    assertTrue(queueConsumer.getMessageFromQueue().isEmpty());
   }
 }
