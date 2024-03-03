@@ -47,11 +47,13 @@ repositories {
 dependencies {
   // Use JUnit Jupiter for testing.
   testImplementation(libs.junit.jupiter)
+  testImplementation("org.mockito:mockito-core:5.0.+")
 
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-  // This dependency is used by the application.
+  // Dependencies used by application code.
   implementation(libs.guava)
+  implementation("com.amazonaws:amazon-sqs-java-messaging-lib:2.1.2")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -96,5 +98,9 @@ tasks {
     useJUnitPlatform()
     finalizedBy(jacocoTestReport)
     finalizedBy(jacocoTestCoverageVerification)
+
+    // ByteBuddy version used by Mockito only supports Java 21 in experimental mode
+    // Ref: https://github.com/raphw/byte-buddy/issues/1396
+    jvmArgs = listOf("-Dnet.bytebuddy.experimental=true")
   }
 }
