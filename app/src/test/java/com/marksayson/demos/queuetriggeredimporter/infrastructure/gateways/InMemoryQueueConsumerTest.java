@@ -29,7 +29,7 @@ public class InMemoryQueueConsumerTest {
     queueConsumer.addMessageToQueue(TEST_MESSAGE);
 
     final Optional<QueuedProductsMessage> optionalMessage = queueConsumer.getMessageFromQueue();
-    assertEquals(TEST_MESSAGE.sourceLocation(), optionalMessage.get().sourceLocation());
+    assertEquals(TEST_MESSAGE.getSourceLocation(), optionalMessage.get().getSourceLocation());
   }
 
   @Test void testDeleteMessageFromEmptyQueue() {

@@ -39,3 +39,4 @@ To allow us to make future infrastructure changes with minimal effort, we will d
 * `gradle run` - execute the program
 * `gradle tasks` - list available Gradle tasks
 * `gradle test` - run unit tests
+* `gradle test --tests TestClass.TestMethod --info` - run specific unit test with extended logging, helpful when debugging errors

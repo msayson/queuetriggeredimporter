@@ -1,5 +1,6 @@
 package com.marksayson.demos.queuetriggeredimporter;
 
+import com.marksayson.demos.queuetriggeredimporter.domain.exceptions.QueueConsumerException;
 import com.marksayson.demos.queuetriggeredimporter.domain.usecases.ingest.ProductsIngestor;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryProductsProcessor;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryProductsRetriever;
@@ -17,7 +18,12 @@ public class Program {
     System.out.println("Initializing ingestor...");
     final ProductsIngestor ingestor = instantiateIngestor();
     System.out.println("Pulling available products...");
-    ingestor.ingestProducts();
+    try {
+      ingestor.ingestProducts();
+    } catch (final QueueConsumerException e) {
+      System.err.println("Unexpected QueueConsumerException while ingesting products: " + e.getMessage());
+      e.printStackTrace();
+    }
     System.out.println("Ingestion complete, shutting down...");
   }
 

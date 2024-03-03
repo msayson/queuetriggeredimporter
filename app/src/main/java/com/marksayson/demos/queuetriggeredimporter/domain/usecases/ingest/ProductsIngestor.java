@@ -2,6 +2,7 @@ package com.marksayson.demos.queuetriggeredimporter.domain.usecases.ingest;
 
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.Product;
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedProductsMessage;
+import com.marksayson.demos.queuetriggeredimporter.domain.exceptions.QueueConsumerException;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.ProductsProcessor;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.ProductsRetriever;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.QueueConsumer;
@@ -35,15 +36,16 @@ public class ProductsIngestor {
 
   /**
    * Ingest products from the data source provided by the latest message in the queue.
+   * @throws QueueConsumerException thrown when error retrieving/deleting messages from the queue.
    */
-  public void ingestProducts() {
+  public void ingestProducts() throws QueueConsumerException {
     final Optional<QueuedProductsMessage> optionalMessage = queueReceiver.getMessageFromQueue();
     if (optionalMessage.isEmpty()) {
       return;
     }
 
     final QueuedProductsMessage message = optionalMessage.get();
-    final String sourceLocation = message.sourceLocation();
+    final String sourceLocation = message.getSourceLocation();
     final Optional<Collection<Product>> optionalProducts = productsRetriever.retrieveProducts(sourceLocation);
     if (optionalProducts.isPresent()) {
       productsProcessor.processProducts(optionalProducts.get());

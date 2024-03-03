@@ -29,31 +29,31 @@ public class ProductsIngestorTest {
     ingestor = new ProductsIngestor(queueConsumer, productsRetriever, productsProcessor);
   }
 
-  @Test void testIngestRecordsWithEmptyQueue() {
+  @Test void testIngestRecordsWithEmptyQueue() throws Exception {
     ingestor.ingestProducts();
   }
 
-  @Test void testIngestRecordsDeletesProcessedMessageFromQueue() {
+  @Test void testIngestRecordsDeletesProcessedMessageFromQueue() throws Exception {
     queueConsumer.addMessageToQueue(TEST_MESSAGE);
 
     ingestor.ingestProducts();
     assertTrue(queueConsumer.getMessageFromQueue().isEmpty());
   }
 
-  @Test void testIngestRecordsWithEmptyData() {
+  @Test void testIngestRecordsWithEmptyData() throws Exception {
     queueConsumer.addMessageToQueue(TEST_MESSAGE);
-    productsRetriever.uploadProducts(TEST_MESSAGE.sourceLocation(), List.of());
+    productsRetriever.uploadProducts(TEST_MESSAGE.getSourceLocation(), List.of());
 
     ingestor.ingestProducts();
   }
 
-  @Test void testIngestRecordsWithAvailableData() {
+  @Test void testIngestRecordsWithAvailableData() throws Exception {
     final Product product = new Product(
       "id", "data", "2023-12-01T10:55:01Z", "2024-01-28T05:35:22Z"
     );
     queueConsumer.addMessageToQueue(TEST_MESSAGE);
     productsRetriever.uploadProducts(
-      TEST_MESSAGE.sourceLocation(),
+      TEST_MESSAGE.getSourceLocation(),
       List.of(product, product)
     );
 

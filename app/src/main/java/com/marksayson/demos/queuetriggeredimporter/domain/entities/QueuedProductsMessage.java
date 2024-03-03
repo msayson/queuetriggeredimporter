@@ -6,6 +6,14 @@ package com.marksayson.demos.queuetriggeredimporter.domain.entities;
  *
  * @param sourceLocation Location to retrieve products from
  */
-public record QueuedProductsMessage(
-  String sourceLocation
-) {}
+public class QueuedProductsMessage {
+  private final String sourceLocation;
+
+  public QueuedProductsMessage(final String sourceLocation) {
+    this.sourceLocation = sourceLocation;
+  }
+
+  public String getSourceLocation() {
+    return sourceLocation;
+  }
+}
