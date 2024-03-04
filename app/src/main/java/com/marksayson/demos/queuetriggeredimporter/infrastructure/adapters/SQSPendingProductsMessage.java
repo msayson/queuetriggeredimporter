@@ -2,6 +2,7 @@ package com.marksayson.demos.queuetriggeredimporter.infrastructure.adapters;
 
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedProductsMessage;
 import com.marksayson.demos.queuetriggeredimporter.domain.exceptions.QueueConsumerException;
+
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
 

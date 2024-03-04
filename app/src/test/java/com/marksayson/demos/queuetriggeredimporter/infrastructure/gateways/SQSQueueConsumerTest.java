@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedProductsMessage;
 import com.marksayson.demos.queuetriggeredimporter.domain.exceptions.QueueConsumerException;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.adapters.SQSPendingProductsMessage;
+
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
 import jakarta.jms.MessageConsumer;

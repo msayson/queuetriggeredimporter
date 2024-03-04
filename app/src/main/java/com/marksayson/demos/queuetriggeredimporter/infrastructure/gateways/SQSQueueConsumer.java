@@ -4,6 +4,7 @@ import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedProduct
 import com.marksayson.demos.queuetriggeredimporter.domain.exceptions.QueueConsumerException;
 import com.marksayson.demos.queuetriggeredimporter.domain.gateways.QueueConsumer;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.adapters.SQSPendingProductsMessage;
+
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
 import jakarta.jms.MessageConsumer;
