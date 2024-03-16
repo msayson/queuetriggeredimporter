@@ -51,9 +51,7 @@ public class SQSQueueConsumer implements QueueConsumer {
 
   @Override
   public void deleteMessageFromQueue(final QueuedProductsMessage message) throws QueueConsumerException {
-    if (message instanceof SQSPendingProductsMessage) {
-      ((SQSPendingProductsMessage) message).acknowledge();
-    }
+    message.acknowledge();
   }
 
   private SQSPendingProductsMessage parseFromMessage(final Message message) throws QueueConsumerException, JMSException {

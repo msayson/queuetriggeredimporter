@@ -4,12 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.Product;
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedProductsMessage;
-import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueConsumer;
+import com.marksayson.demos.queuetriggeredimporter.infrastructure.adapters.InMemoryQueuedProductsMessage;
+import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryProductsProcessor;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryProductsRetriever;
+import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueConsumer;
 
 import java.util.List;
 
-import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryProductsProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,7 @@ public class ProductsIngestorTest {
   private InMemoryProductsProcessor productsProcessor;
   private ProductsIngestor ingestor;
 
-  private static QueuedProductsMessage TEST_MESSAGE = new QueuedProductsMessage("SourceLocation");
+  private static QueuedProductsMessage TEST_MESSAGE = new InMemoryQueuedProductsMessage("SourceLocation");
 
   @BeforeEach void setup() {
     queueConsumer = new InMemoryQueueConsumer();

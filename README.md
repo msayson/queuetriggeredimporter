@@ -15,6 +15,8 @@ To allow us to make future infrastructure changes with minimal effort, we will d
   * Application-level business logic leveraging entities and `/domain/gateways` interfaces
 * `/domain/gateways`
   * Interfaces defining external interactions without specifying infrastructure choices
+* `/infrastructure/adapters`
+  * Implementations of `/domain/entities` interfaces
 * `/infrastructure/gateways`
   * Implementations of `/domain/gateways` interfaces
   * Can add a new implementation and switch infrastructure choices in `/Program.java` without touching any `/domain/*` code

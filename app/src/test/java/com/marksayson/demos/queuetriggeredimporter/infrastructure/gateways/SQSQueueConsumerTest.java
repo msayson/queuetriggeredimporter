@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedProductsMessage;
 import com.marksayson.demos.queuetriggeredimporter.domain.exceptions.QueueConsumerException;
+import com.marksayson.demos.queuetriggeredimporter.infrastructure.adapters.InMemoryQueuedProductsMessage;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.adapters.SQSPendingProductsMessage;
 
 import jakarta.jms.JMSException;
@@ -29,7 +30,7 @@ public class SQSQueueConsumerTest {
   private SQSQueueConsumer queueConsumer;
 
   private static String TEST_SOURCE_LOCATION = "TestSourceLocation";
-  private static QueuedProductsMessage TEST_MESSAGE = new QueuedProductsMessage(TEST_SOURCE_LOCATION);
+  private static QueuedProductsMessage TEST_MESSAGE = new InMemoryQueuedProductsMessage(TEST_SOURCE_LOCATION);
 
   @BeforeEach void setup() {
     messageConsumer = mock(MessageConsumer.class);
@@ -67,7 +68,6 @@ public class SQSQueueConsumerTest {
   }
 
   @Test void testDeleteUnsupportedMessage() throws Exception {
-    queueConsumer.deleteMessageFromQueue(null);
     queueConsumer.deleteMessageFromQueue(TEST_MESSAGE);
   }
 

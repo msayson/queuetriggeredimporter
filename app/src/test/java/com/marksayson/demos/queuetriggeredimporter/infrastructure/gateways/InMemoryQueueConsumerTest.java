@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.marksayson.demos.queuetriggeredimporter.domain.entities.QueuedProductsMessage;
+import com.marksayson.demos.queuetriggeredimporter.infrastructure.adapters.InMemoryQueuedProductsMessage;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +16,7 @@ import java.util.Optional;
 public class InMemoryQueueConsumerTest {
   private InMemoryQueueConsumer queueConsumer;
 
-  private static QueuedProductsMessage TEST_MESSAGE = new QueuedProductsMessage("SourceLocation");
+  private static QueuedProductsMessage TEST_MESSAGE = new InMemoryQueuedProductsMessage("SourceLocation");
 
   @BeforeEach void setup() {
     queueConsumer = new InMemoryQueueConsumer();
@@ -49,16 +51,16 @@ public class InMemoryQueueConsumerTest {
 
   @Test void testDeleteMessageNotInQueue() {
     queueConsumer.addMessageToQueue(TEST_MESSAGE);
-    final QueuedProductsMessage messageNotInQueue = new QueuedProductsMessage("NotInQueue");
+    final QueuedProductsMessage messageNotInQueue = new InMemoryQueuedProductsMessage("NotInQueue");
 
     queueConsumer.deleteMessageFromQueue(messageNotInQueue);
     assertFalse(queueConsumer.getMessageFromQueue().isEmpty());
   }
 
   @Test void testDeleteMultipleMessages() {
-    final QueuedProductsMessage testMessage1 = new QueuedProductsMessage("TestMessage1");
-    final QueuedProductsMessage testMessage2 = new QueuedProductsMessage("TestMessage2");
-    final QueuedProductsMessage testMessage3 = new QueuedProductsMessage("TestMessage3");
+    final QueuedProductsMessage testMessage1 = new InMemoryQueuedProductsMessage("TestMessage1");
+    final QueuedProductsMessage testMessage2 = new InMemoryQueuedProductsMessage("TestMessage2");
+    final QueuedProductsMessage testMessage3 = new InMemoryQueuedProductsMessage("TestMessage3");
 
     // Add out of order
     queueConsumer.addMessageToQueue(testMessage2);

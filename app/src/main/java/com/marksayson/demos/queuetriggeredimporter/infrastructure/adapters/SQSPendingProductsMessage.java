@@ -9,17 +9,27 @@ import jakarta.jms.Message;
 /**
  * Implementation of a SQS pending products message.
  */
-public class SQSPendingProductsMessage extends QueuedProductsMessage {
+public class SQSPendingProductsMessage implements QueuedProductsMessage {
   private Message message;
+  private String productsSourceLocation;
 
   public SQSPendingProductsMessage(final Message message, final String productsSourceLocation) {
-    super(productsSourceLocation);
     this.message = message;
+    this.productsSourceLocation = productsSourceLocation;
+  }
+
+  /**
+   * Retrieve source location of products pending import.
+   */
+  @Override
+  public String getSourceLocation() {
+    return productsSourceLocation;
   }
 
   /**
    * Delete source message from the SQS queue.
    */
+  @Override
   public void acknowledge() throws QueueConsumerException {
     try {
       message.acknowledge();
