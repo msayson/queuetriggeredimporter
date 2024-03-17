@@ -54,6 +54,10 @@ dependencies {
   // Dependencies used by application code.
   implementation(libs.guava)
   implementation("com.amazonaws:amazon-sqs-java-messaging-lib:2.1.2")
+
+  // Logging
+  implementation("org.apache.logging.log4j:log4j-core:2.23.1")
+  implementation("org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -102,5 +106,11 @@ tasks {
     // ByteBuddy version used by Mockito only supports Java 21 in experimental mode
     // Ref: https://github.com/raphw/byte-buddy/issues/1396
     jvmArgs = listOf("-Dnet.bytebuddy.experimental=true")
+  }
+}
+
+sourceSets.main {
+  resources {
+    include("log4j2.xml")
   }
 }

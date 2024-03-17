@@ -6,25 +6,30 @@ import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMem
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryProductsRetriever;
 import com.marksayson.demos.queuetriggeredimporter.infrastructure.gateways.InMemoryQueueConsumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Program which consumes an import notification, retrieves associated products, and processes them.
  */
 public class Program {
+  private static Logger logger = LoggerFactory.getLogger(Program.class);
+
   /**
    * Entry point for the program, instantiates infrastructure and ingests products.
    * @param args Input arguments
    */
   public static void main(final String[] args) {
-    System.out.println("Initializing ingestor...");
+    logger.info("Initializing ingestor...");
     final ProductsIngestor ingestor = instantiateIngestor();
-    System.out.println("Pulling available products...");
+    logger.info("Pulling available products...");
     try {
       ingestor.ingestProducts();
     } catch (final QueueConsumerException e) {
-      System.err.println("Unexpected QueueConsumerException while ingesting products: " + e.getMessage());
+      logger.error("Unexpected QueueConsumerException while ingesting products", e);
       e.printStackTrace();
     }
-    System.out.println("Ingestion complete, shutting down...");
+    logger.info("Ingestion complete, shutting down...");
   }
 
   private static ProductsIngestor instantiateIngestor() {
